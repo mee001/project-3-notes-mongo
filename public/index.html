@@ -1,0 +1,11 @@
+<!DOCTYPE html><html><body>
+<h2>My Notes - Project 3</h2>
+<input id="t" placeholder="new note"><button onclick="add()">Add</button>
+<ul id="list"></ul>
+<script>
+async function load(){ let r=await fetch('/api/notes'); let d=await r.json(); list.innerHTML=d.map(n=>`<li>${n.text} <button onclick="del('${n._id}')">x</button></li>`).join('') }
+async function add(){ await fetch('/api/notes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t.value})}); t.value=''; load() }
+async function del(id){ await fetch('/api/notes/'+id,{method:'DELETE'}); load() }
+load()
+</script>
+</body></html>
